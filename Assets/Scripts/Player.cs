@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    float moveSpeed = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +16,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Move();
+    }
+
+    private void Move()
+    {
+        var deltaX = Input.GetAxis("Horizontal");
+        var newXPos = transform.position.x + deltaX * Time.deltaTime * moveSpeed;
+
+        var deltaY = Input.GetAxis("Vertical");
+        var newYPos = transform.position.y + deltaY * Time.deltaTime * moveSpeed;
+
+        transform.position = new Vector2(newXPos, newYPos);
     }
 }
