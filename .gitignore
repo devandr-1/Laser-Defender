@@ -58,3 +58,5 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/Assets/z lib assets
+/Assets/z lib assets.meta

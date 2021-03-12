@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float padding = 1f;
+    [SerializeField] int health = 200;
+
+    [Header("Projectile")]
     [SerializeField] GameObject laserPrefab;
-    [SerializeField] float projectalSpeed = 10f;
+    [SerializeField] float projectileSpeed = 10f;
+    [SerializeField] float projectileFiringPeriod = .2f;
+
+    Coroutine fireCoroutine;
 
     float xMin, xMax, yMin, yMax;
 
@@ -24,12 +31,48 @@ public class Player : MonoBehaviour
         Fire();
     }
 
+    private void OnTriggerEnter2D(Collider2D laser)
+    {
+        DamageDealer damageDealer = laser.gameObject.GetComponent<DamageDealer>();
+        
+        if (damageDealer != null)
+        {
+            ProccessHit(damageDealer);
+        }
+    }
+
+    private void ProccessHit(DamageDealer damageDealer)
+    {
+        damageDealer.Hit();
+        
+        health -= damageDealer.Damage;
+        
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Fire()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectalSpeed);
+            fireCoroutine = StartCoroutine(FireContinuously());
+        }
+        
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(fireCoroutine);
+        }
+    }
+
+    private IEnumerator FireContinuously()
+    {
+        while (true)
+        {
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+            yield return new WaitForSeconds(projectileFiringPeriod);
         }
     }
 
