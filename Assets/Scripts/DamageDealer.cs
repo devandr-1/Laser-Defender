@@ -5,7 +5,6 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     [SerializeField] int damage = 100;
-    [SerializeField] bool isPlayerShot = true;
 
     public int Damage { get => damage; }
 

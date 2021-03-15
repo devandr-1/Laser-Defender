@@ -102,6 +102,10 @@ MonoBehaviour:
     type: 3}
   projectileSpeed: 10
   projectileFiringPeriod: 0.5
+  laserSFX: {fileID: 8300000, guid: 5a537c7c356af6547918392947d432fc, type: 3}
+  laserSFXVolume: 0.147
+  deathSFX: {fileID: 8300000, guid: d872d744cfcc9804f964b9ff06387bcf, type: 3}
+  deathSFXVolume: 1
 --- !u!61 &8402836238752464688
 BoxCollider2D:
   m_ObjectHideFlags: 0
