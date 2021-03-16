@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Stats")]
     [SerializeField] float health = 100;
+    [SerializeField] int scoreValue = 150;
     
     [Header("Shooting")]
     [SerializeField] float shotCounter;
@@ -76,10 +78,16 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(gameObject);
-            AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position, deathSFXVolume);
-            GameObject explosion = Instantiate(explosionVFX, transform.position, transform.rotation);
-            Destroy(explosion, explosionDuration);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        FindObjectOfType<GameSession>().AddToScore(scoreValue);
+        Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position, deathSFXVolume);
+        GameObject explosion = Instantiate(explosionVFX, transform.position, transform.rotation);
+        Destroy(explosion, explosionDuration);
     }
 }
